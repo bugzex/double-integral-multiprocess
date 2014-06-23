@@ -1,4 +1,4 @@
-// int2.c - вычисление двойного интеграла с использованием процессов.
+// int2.c - РІС‹С‡РёСЃР»РµРЅРёРµ РґРІРѕР№РЅРѕРіРѕ РёРЅС‚РµРіСЂР°Р»Р° СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј РїСЂРѕС†РµСЃСЃРѕРІ.
 
 #include <stdio.h>
 #include <unistd.h>
@@ -21,13 +21,13 @@ int main(int argc, char *argv[])
 	double d; sscanf(argv[4], "%lf", &d);
 	int N = atoi(argv[5]);
 	int M = atoi(argv[6]);
-	unsigned procnum = atoi(argv[7]);     // количество процессов
+	unsigned procnum = atoi(argv[7]);     // РєРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРѕС†РµСЃСЃРѕРІ
 	double result;
-	time_t begtime, endtime, restime;			// время вычисления
+	time_t begtime, endtime, restime;			// РІСЂРµРјСЏ РІС‹С‡РёСЃР»РµРЅРёСЏ
 	int channel[2];
 	unsigned j, i;
-	int flg_parent = 0;										// флаг родителя. 1 - родитель
-	double piece;													// кусочек интегралла
+	int flg_parent = 0;										// С„Р»Р°Рі СЂРѕРґРёС‚РµР»СЏ. 1 - СЂРѕРґРёС‚РµР»СЊ
+	double piece;													// РєСѓСЃРѕС‡РµРє РёРЅС‚РµРіСЂР°Р»Р»Р°
 	double buf;
 
 	begtime = time(NULL);
@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	// запуск процессов
+	// Р·Р°РїСѓСЃРє РїСЂРѕС†РµСЃСЃРѕРІ
 	for(j = 0; j < procnum - 1; j++)
 		if(!fork())
 			break;
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 	if(j == procnum - 1)
 		flg_parent = 1;
 
-	// всем детям поровну погрысть интеграл!
+	// РІСЃРµРј РґРµС‚СЏРј РїРѕСЂРѕРІРЅСѓ РїРѕРіСЂС‹СЃС‚СЊ РёРЅС‚РµРіСЂР°Р»!
 	N /= procnum;
 	piece = (b - a)/procnum;
 	a+= j * piece;
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 	result = integrate(a, b, c, d, N, M);
 
 	printf("Piece result: %f\n", result);
-	if(flg_parent)		// пора собирать урожай!
+	if(flg_parent)		// РїРѕСЂР° СЃРѕР±РёСЂР°С‚СЊ СѓСЂРѕР¶Р°Р№!
 	{
 		for(i = 0; i < j; i++)
 		{
